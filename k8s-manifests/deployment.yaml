@@ -1,4 +1,4 @@
-# Service definition
+# Service definiti
 apiVersion: v1
 kind: Service
 metadata:
