@@ -1,0 +1,16 @@
+# Service definition
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: todolistapp
+  name: todolistapp-service
+spec:
+  type: LoadBalancer  # This will create an external load balancer (on AWS)
+  ports:
+    - name: http
+      port: 80         # Expose port 8080 for external access
+      protocol: TCP
+      targetPort: 80     # The container will serve on port 80
+  selector:
+    app: todolistapp
