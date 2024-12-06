@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: todolistapp-container
-          image: 980921731940.dkr.ecr.us-east-1.amazonaws.com/my-reepository:23
+          image: 980921731940.dkr.ecr.us-east-1.amazonaws.com/my-reepository:replaceImageTag
           imagePullPolicy: Always
           ports:
             - containerPort: 80       # Your app inside the container is running on port 80
