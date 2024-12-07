@@ -120,5 +120,34 @@ http://<ec2-instance-public-ip>:8080/restart
 
 The docker agent configuration is now successful.
 
+### build a jenkins pipeline
 
+![image](https://github.com/user-attachments/assets/40d891eb-b1e7-4288-bd97-bb8742b6a080)
+
+2. Configure Source Code Management (SCM)
+To link Jenkins to your Git repository (e.g., GitHub, GitLab, Bitbucket), configure the SCM settings in the Jenkins job.
+
+Step 2.1: Select Source Code Management
+
+Inside the created Jenkins job, go to the Pipeline section and look for Source Code Management.
+Choose Git as the SCM option.
+Step 2.2: Enter Repository Details
+
+Enter the URL of your Git repository (e.g., https://github.com/your-username/your-repo.git).
+If your repository is private, you’ll need to provide authentication credentials:
+Username/Password or Personal Access Token for GitHub.
+Click Add under Credentials to store your Git credentials securely.
+Step 2.3: Configure Branch
+
+In the Branch Specifier field, specify the branch you want to use for the pipeline (e.g., */main or */master).
+![image](https://github.com/user-attachments/assets/77e5b49b-4019-4887-9b28-a3666c7d188b)
+![image](https://github.com/user-attachments/assets/b792e434-2eb1-46f9-9c34-d1257f81c93d)
+
+Step 2.3: Now run the pipeline-
+![image](https://github.com/user-attachments/assets/5cf50e07-07e9-4ed3-8914-4a24bddc8d99)
+
+![image](https://github.com/user-attachments/assets/4439114d-e491-4a46-bdbb-31a881793aad)
+
+Updated deployment.yaml file through our pipeline
+![image](https://github.com/user-attachments/assets/6301b43e-20a0-48d5-966e-ca1c1a37ee65)
 
