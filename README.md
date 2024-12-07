@@ -295,3 +295,192 @@ If your application exposes a service, access it via the Load Balancer with the 
 
 ![image](https://github.com/user-attachments/assets/20a06128-b3ef-4909-a29d-af58469c4873)
 
+### Installation of Prometheus and Grafana
+Pre-requisites:
+1) EKS Cluster needs to be up and running. 
+2) Install Helm3 on the EC2 used to access EKS cluster.
+3) EC2 instance to access EKS cluster
+
+### Helm 3 can be installed many ways. We will install Helm 3 using scripts option.
+
+Download scripts 
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+
+provide permission
+sudo chmod 700 get_helm.sh
+
+Execute script to install
+sudo ./get_helm.sh
+
+Verify installation
+helm version --client
+
+Now 
+
+Implementation steps
+We need to add the Helm Stable Charts for your EC2. Execute the below command:
+
+helm repo add stable https://charts.helm.sh/stable
+
+![image](https://github.com/user-attachments/assets/aa1ecf8e-718c-40e4-b7ac-bb86ed282fc4)
+
+
+# Add prometheus Helm repo
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+![image](https://github.com/user-attachments/assets/93cab33a-36a0-4b1d-9cf2-8390ac766f2c)
+
+
+helm search repo prometheus-community
+
+Prometheus and grafana helm chart moved to kube prometheus stack
+
+![image](https://github.com/user-attachments/assets/9185bb36-b409-4c2e-8080-1ac13539a591)
+
+Create Prometheus namespace
+kubectl create namespace prometheus
+![image](https://github.com/user-attachments/assets/72e736d4-74ff-448c-b132-277c5ce1fc08)
+
+
+Install kube-prometheus-stack
+
+Below is helm command to install kube-prometheus-stack. The helm repo kube-stack-prometheus (formerly prometheus-operator) comes with a grafana deployment embedded.
+
+helm install stable prometheus-community/kube-prometheus-stack -n prometheus
+
+![image](https://github.com/user-attachments/assets/69f768a1-cf60-4915-87a8-5ae684921560)
+
+Lets check if prometheus and grafana pods are running already
+kubectl get pods -n prometheus
+
+![image](https://github.com/user-attachments/assets/8bfb9cea-ca19-4bdb-b239-3ae1ed5b0479)
+
+
+kubectl get svc -n prometheus
+
+![image](https://github.com/user-attachments/assets/a974ba10-fd99-4ef6-85d0-a560d8a3722c)
+
+
+This confirms that prometheus and grafana have been installed successfully using Helm.
+
+In order to make prometheus and grafana available outside the cluster, use LoadBalancer or NodePort instead of ClusterIP.
+Edit Prometheus Service
+
+![image](https://github.com/user-attachments/assets/3a96e31b-74fc-443c-9d22-d15d6310ddff)
+
+kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus
+
+
+Edit Grafana Service
+kubectl edit svc stable-grafana -n prometheus
+![image](https://github.com/user-attachments/assets/ebd3da1d-d1cb-47bc-a8f6-98984463da9f)
+
+
+Verify if service is changed to LoadBalancer and also to get the Load Balancer URL.
+
+kubectl get svc -n prometheus
+
+
+
+Access Grafana UI in the browser
+
+Get the URL from the above screenshot and put in the browser
+
+![image](https://github.com/user-attachments/assets/24f97c5b-1cc9-4955-a685-aba769ce5966)
+
+
+UserName: admin 
+Password: prom-operator
+
+Create Dashboard in Grafana
+
+In Grafana, we can create various kinds of dashboards as per our needs.
+How to Create Kubernetes Monitoring Dashboard?
+For creating a dashboard to monitor the cluster:
+
+
+
+Click '+' button on left panel and select ‘Import’.
+
+Enter 12740 dashboard id under Grafana.com Dashboard.
+
+Click ‘Load’.
+
+Select ‘Prometheus’ as the endpoint under prometheus data sources drop down.
+
+Click ‘Import’.
+
+
+
+This will show monitoring dashboard for all cluster nodes
+
+
+![image](https://github.com/user-attachments/assets/a8918a69-cc6c-44aa-86db-b09536310e4f)
+
+
+![image](https://github.com/user-attachments/assets/af80ccd3-08ad-447c-928d-d8cdd2708a57)
+
+
+![image](https://github.com/user-attachments/assets/9655db93-e692-458f-8a9e-5dbe07697b8b)
+
+
+How to Create Kubernetes Cluster Monitoring Dashboard?
+
+
+For creating a dashboard to monitor the cluster:
+
+
+
+Click '+' button on left panel and select ‘Import’.
+
+Enter 3119 dashboard id under Grafana.com Dashboard.
+
+Click ‘Load’.
+
+Select ‘Prometheus’ as the endpoint under prometheus data sources drop down.
+
+Click ‘Import’.
+
+This will show monitoring dashboard for all cluster nodes
+
+![image](https://github.com/user-attachments/assets/b12b65d0-3460-41c5-bfff-1ee2f61739c7)
+
+Create POD Monitoring Dashboard
+For creating a dashboard to monitor the cluster:
+
+
+
+Click '+' button on left panel and select ‘Import’.
+
+Enter 6417 dashboard id under Grafana.com Dashboard.
+
+Click ‘Load’.
+
+Select ‘Prometheus’ as the endpoint under prometheus data sources drop down.
+
+Click ‘Import’.
+
+![image](https://github.com/user-attachments/assets/1721bb2f-58b0-4f34-be05-2280a25600c5)
+
+
+![image](https://github.com/user-attachments/assets/4cc96935-c181-4c80-b21d-adbbd82a5af6)
+
+
+
+This will show monitoring dashboard for all cluster nodes.
+
+
+![image](https://github.com/user-attachments/assets/07950655-68ad-4428-9cb0-cd083b81a58f)
+
+
+
+Cleanup EKS Cluster
+Use the below command to delete EKS cluster to avoid being charged by AWS.
+eksctl delete cluster --name demo-eks --region us-east-1
+
+or Login to AWS console --> AWS Cloud formation --> delete the stack manually.
+
+you can also delete the cluster under AWS console --> Elastic Kubernetes Service --> Clusters
+Click on Delete cluster
+
+
