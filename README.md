@@ -1,6 +1,6 @@
 Checkout the youtube videos for reference-
-1) 
-2)
+1) Deploy EC2, ECR, and other AWS resources using Terraform-  https://www.youtube.com/watch?v=7lJGdpRzcPY
+2) Deploy the App using ArgoCD and EKS- https://www.youtube.com/watch?v=o8apDmWGo8s
 
 ## Installation on EC2 Instance
 Install Jenkins, configure Docker as agent, set up cicd, deploy applications to k8s and much more.
