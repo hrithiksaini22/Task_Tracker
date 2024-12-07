@@ -1,3 +1,7 @@
+Checkout the youtube videos for reference-
+1) 
+2)
+
 ## Installation on EC2 Instance
 Install Jenkins, configure Docker as agent, set up cicd, deploy applications to k8s and much more.
 
